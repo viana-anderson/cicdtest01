@@ -1,0 +1,42 @@
+# Versão das actions (checkout, setup-python) conferida em 26/08/2026.
+# Confira sempre a mais recente em github.com/<owner>/<repo>/releases antes de reusar este arquivo.
+#
+# Este arquivo tem SÓ o job "ci" -- lint + testes, roda 100% local/GitHub, sem
+# depender do Azure nem de nenhum secret. É o entregável CORE da aula.
+#
+# Quer adicionar o job "deploy" (autenticação no Azure via OIDC)? Isso é a
+# Parte Extra (opcional) da aula -- o trecho pronto do job está em
+# aula6_material/extra-job-deploy-oidc.yml.txt. Só depois de configurar a
+# federated credential + os 3 secrets do Azure (ver setup_oidc_federated_credential.sh
+# e o Manual, Parte Extra), copie aquele trecho para dentro de "jobs:" abaixo.
+name: CI/CD - Pipeline PCDF (projeto-guia)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ---------------------------------------------------------------
+  # CI -- lint, testes unitarios, de dados e de modelo
+  # ---------------------------------------------------------------
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v5
+
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint (ruff)
+        run: ruff check src tests
+
+      - name: Testes unitários + de dados + de modelo (pytest)
+        run: pytest tests -v

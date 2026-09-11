@@ -1,0 +1,7 @@
+# Aula 06 -- dependencias de desenvolvimento/CI testadas nesta revisao (26/08/2026).
+# Instale com: pip install -r requirements-dev.txt
+pandas==2.3.3
+scikit-learn==1.7.2
+pytest==9.1.1
+ruff==0.16.4
+kfp==2.17.0

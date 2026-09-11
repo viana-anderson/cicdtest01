@@ -1,0 +1,7 @@
+[tool.ruff.lint]
+# EXE001/EXE002 comparam o shebang do arquivo com o bit de execucao (+x) dele
+# no sistema de arquivos. Esse bit nao sobrevive de forma confiavel entre
+# Windows, WSL2, zip e git -- por isso essas 2 regras ficam desligadas aqui
+# (nao tem relacao com a qualidade do codigo em si, so com permissao de
+# arquivo, que muda dependendo de como cada aluno copiou/clonou o material).
+ignore = ["EXE001", "EXE002"]
